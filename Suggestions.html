@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>مقترحات</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            direction: rtl;
+            background-color: #f4f7fc;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #4CAF50;
+        }
+        label {
+            font-size: 18px;
+            margin-bottom: 8px;
+            display: block;
+            color: #555;
+        }
+        .input-box {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            color: #333;
+        }
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 18px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .submit-btn:hover {
+            background-color: #45a049;
+        }
+        .message {
+            color: #28a745;
+            text-align: center;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+        .message.error {
+            color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>إرسال الاقتراحات</h1>
+        <label for="name">الاسم:</label>
+        <input type="text" id="name" class="input-box" placeholder="أدخل اسمك">
+
+        <label for="suggestion">الاقتراح:</label>
+        <input type="text" id="suggestion" class="input-box" placeholder="أدخل اقتراحك">
+
+        <button class="submit-btn" onclick="submitForm()">إرسال</button>
+
+        <p id="message" class="message"></p>
+    </div>
+
+    <script>
+        function submitForm() {
+            const name = document.getElementById("name").value;
+            const suggestion = document.getElementById("suggestion").value;
+
+            if (name && suggestion) {
+                let suggestions = JSON.parse(localStorage.getItem("suggestions")) || [];
+                suggestions.push({ name, suggestion });
+                localStorage.setItem("suggestions", JSON.stringify(suggestions));
+
+                document.getElementById("message").textContent = "تم إرسال الاقتراح بنجاح!";
+                document.getElementById("message").classList.remove("error");
+                document.getElementById("message").classList.add("success");
+
+                document.getElementById("name").value = "";
+                document.getElementById("suggestion").value = "";
+            } else {
+                document.getElementById("message").textContent = "الرجاء ملء كلا الحقلين";
+                document.getElementById("message").classList.remove("success");
+                document.getElementById("message").classList.add("error");
+            }
+        }
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الاقتراحات</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            direction: rtl;
+            background-color: #f4f7fc;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            max-width: 800px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #4CAF50;
+        }
+        .suggestion {
+            background-color: #f9f9f9;
+            margin: 15px 0;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .name {
+            font-weight: bold;
+            color: #4CAF50;
+            font-size: 18px;
+        }
+        .suggestion-text {
+            margin-top: 5px;
+            font-size: 16px;
+            color: #555;
+        }
+        .delete-btn {
+            background-color: #dc3545;
+            color: white;
+            padding: 8px 15px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .delete-btn:hover {
+            background-color: #c82333;
+        }
+        .no-suggestions {
+            text-align: center;
+            color: #888;
+        }
+        .suggestion-number {
+            font-size: 16px;
+            color: #888;
+            margin-left: 10px;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>جميع الاقتراحات</h1>
+
+        <div id="suggestionsList"></div>
+
+        <p class="no-suggestions" id="noSuggestionsMessage">لا توجد اقتراحات بعد.</p>
+    </div>
+
+    <script>
+        let suggestions = JSON.parse(localStorage.getItem("suggestions")) || [];
+        const suggestionsList = document.getElementById("suggestionsList");
+        const noSuggestionsMessage = document.getElementById("noSuggestionsMessage");
+
+        // Function to delete a suggestion
+        function deleteSuggestion(index) {
+            suggestions.splice(index, 1);  // Remove the suggestion from the array
+            localStorage.setItem("suggestions", JSON.stringify(suggestions));  // Save updated suggestions
+            renderSuggestions();  // Re-render suggestions after deletion
+        }
+
+        // Function to render suggestions
+        function renderSuggestions() {
+            suggestionsList.innerHTML = "";  // Clear the existing list
+            if (suggestions.length > 0) {
+                noSuggestionsMessage.style.display = "none";
+                suggestions.forEach(function(suggestion, index) {
+                    const suggestionDiv = document.createElement("div");
+                    suggestionDiv.classList.add("suggestion");
+
+                    suggestionDiv.innerHTML = `
+                        <div>
+                            <p class="name">${suggestion.name}</p>
+                            <p class="suggestion-text">${suggestion.suggestion}</p>
+                        </div>
+                        <div style="text-align: right;">
+                            <p class="suggestion-number">رقم الاقتراح: ${index + 1}</p>
+                            <button class="delete-btn" onclick="deleteSuggestion(${index})">حذف</button>
+                        </div>
+                    `;
+                    suggestionsList.appendChild(suggestionDiv);
+                });
+            } else {
+                noSuggestionsMessage.style.display = "block";
+            }
+        }
+
+        // Initial rendering of suggestions
+        renderSuggestions();
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>عرض الشكاوى</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            direction: rtl;
+            background-color: #f4f7fc;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #d9534f;
+        }
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        li {
+            background-color: #f9f9f9;
+            margin: 10px 0;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            position: relative;
+        }
+        .name {
+            font-weight: bold;
+            color: #333;
+        }
+        .complaint {
+            margin-top: 5px;
+            color: #555;
+        }
+        .delete-btn {
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            background-color: #dc3545;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            padding: 5px 10px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.3s ease;
+        }
+        .delete-btn:hover {
+            background-color: #c9302c;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>عرض الشكاوى</h1>
+        <ul id="complaints-list"></ul>
+    </div>
+
+    <script>
+        function loadComplaints() {
+            const complaints = JSON.parse(localStorage.getItem("complaints")) || [];
+            const list = document.getElementById("complaints-list");
+
+            list.innerHTML = "";
+
+            complaints.forEach((complaint, index) => {
+                const listItem = document.createElement("li");
+                listItem.innerHTML = `
+                    <p class="name">الاسم: ${complaint.name}</p>
+                    <p class="complaint">الشكوى: ${complaint.complaint}</p>
+                    <button class="delete-btn" onclick="deleteComplaint(${index})">حذف</button>
+                `;
+                list.appendChild(listItem);
+            });
+
+            if (complaints.length === 0) {
+                list.innerHTML = "<p>لا توجد شكاوى مسجلة حاليًا.</p>";
+            }
+        }
+
+        function deleteComplaint(index) {
+            let complaints = JSON.parse(localStorage.getItem("complaints")) || [];
+            complaints.splice(index, 1); // حذف العنصر بناءً على الفهرس
+            localStorage.setItem("complaints", JSON.stringify(complaints));
+            loadComplaints(); // تحديث القائمة بعد الحذف
+        }
+
+        window.onload = loadComplaints;
+    </script>
+
+</body>
+</html>

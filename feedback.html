@@ -1,0 +1,236 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>أضف تجربتك</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            color: #333;
+            padding: 20px;
+            text-align: center;
+        }
+        h1 {
+            color: #1a535c;
+        }
+        .feedback-container {
+            background-color: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            margin: auto;
+            width: 90%;
+            max-width: 500px;
+        }
+        input, textarea {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            background-color: #1a535c;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 16px;
+            transition: background-color 0.3s ease;
+        }
+        button:hover {
+            background-color: #4ecdc4;
+        }
+        .stars-container {
+            display: flex;
+            justify-content: space-around;
+            margin: 10px 0;
+        }
+        .star {
+            font-size: 30px;
+            cursor: pointer;
+            color: #ccc; /* اللون الافتراضي */
+            transition: color 0.3s ease;
+        }
+        .star.selected {
+            color: #FFD700; /* اللون عند التحديد */
+        }
+        .star:hover {
+            color: #FFD700;
+        }
+        .ratings-summary {
+            margin-bottom: 20px;
+            background-color: #ffffff;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+            width: 90%;
+            max-width: 500px;
+            margin: auto;
+        }
+        .ratings-summary button {
+            margin: 5px 5px 0;
+            padding: 5px 15px;
+        }
+        #successMessage {
+            display: none;
+            background-color: #4ecdc4;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+            margin: 20px auto;
+            width: 90%;
+            max-width: 500px;
+            text-align: center;
+        }
+        #reviewsDisplay .review {
+            background-color: #fff;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 15px;
+            margin: 10px auto;
+            width: 90%;
+            max-width: 500px;
+            text-align: right;
+        }
+        #reviewsDisplay .review-header {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+    </style>
+</head>
+<body>
+    <h1>أضف تجربتك</h1>
+
+    <!-- رسالة النجاح -->
+    <div id="successMessage">تم إضافة المراجعة بنجاح!</div>
+
+    <!-- زر فتح النموذج -->
+    <button id="openFeedbackBtn">اكتب تجربتك</button>
+
+    <!-- نموذج المراجعة -->
+    <div id="feedbackForm" class="feedback-container" style="display: none;">
+        <input type="text" id="username" placeholder="اسمك" required>
+        <textarea id="review" placeholder="اكتب تجربتك هنا..." rows="4" required></textarea>
+        <div class="stars-container">
+            <span class="star" data-rating="1">★</span>
+            <span class="star" data-rating="2">★ ★</span>
+            <span class="star" data-rating="3">★ ★ ★</span>
+            <span class="star" data-rating="4">★ ★ ★ ★</span>
+            <span class="star" data-rating="5">★ ★ ★ ★ ★</span>
+        </div>
+        <button type="submit" id="submitReviewBtn">إرسال المراجعة</button>
+    </div>
+
+    <!-- ملخص التقييمات -->
+    <div class="ratings-summary">
+        <h3>عدد المراجعات لكل تقييم</h3>
+        <button class="rating-filter" data-rating="1">1 نجمة: <span id="oneStarCount">0</span></button>
+        <button class="rating-filter" data-rating="2">2 نجمة: <span id="twoStarsCount">0</span></button>
+        <button class="rating-filter" data-rating="3">3 نجوم: <span id="threeStarsCount">0</span></button>
+        <button class="rating-filter" data-rating="4">4 نجوم: <span id="fourStarsCount">0</span></button>
+        <button class="rating-filter" data-rating="5">5 نجوم: <span id="fiveStarsCount">0</span></button>
+    </div>
+
+    <h2>المراجعات السابقة</h2>
+    <div id="reviewsDisplay"></div>
+
+    <script>
+        let reviews = JSON.parse(localStorage.getItem('reviews')) || [];
+
+        function displayReviews(rating = null) {
+            const reviewsDisplay = document.getElementById('reviewsDisplay');
+            reviewsDisplay.innerHTML = '';
+            const filteredReviews = rating ? reviews.filter(r => r.rating === rating) : reviews;
+            filteredReviews.forEach(review => {
+                const reviewElement = document.createElement('div');
+                reviewElement.classList.add('review');
+                reviewElement.innerHTML = `
+                    <div class="review-header">${review.username} <span>(${review.rating} نجوم)</span></div>
+                    <p>${review.text}</p>
+                `;
+                reviewsDisplay.appendChild(reviewElement);
+            });
+
+            if (filteredReviews.length === 0) {
+                reviewsDisplay.innerHTML = '<p>لا توجد مراجعات لعرضها.</p>';
+            }
+        }
+
+        function updateStarCounts() {
+            document.getElementById('oneStarCount').textContent = reviews.filter(r => r.rating === 1).length;
+            document.getElementById('twoStarsCount').textContent = reviews.filter(r => r.rating === 2).length;
+            document.getElementById('threeStarsCount').textContent = reviews.filter(r => r.rating === 3).length;
+            document.getElementById('fourStarsCount').textContent = reviews.filter(r => r.rating === 4).length;
+            document.getElementById('fiveStarsCount').textContent = reviews.filter(r => r.rating === 5).length;
+        }
+
+        function showSuccessMessage() {
+            const messageBox = document.getElementById('successMessage');
+            messageBox.style.display = 'block';
+            setTimeout(() => {
+                messageBox.style.display = 'none';
+            }, 3000);
+        }
+
+        document.getElementById('submitReviewBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+
+            const username = document.getElementById('username').value.trim();
+            const reviewText = document.getElementById('review').value.trim();
+            const rating = document.querySelector('.star.selected') ? document.querySelector('.star.selected').dataset.rating : 0;
+
+            if (username === '' || reviewText === '') {
+                alert('يرجى ملء جميع الحقول');
+                return;
+            }
+
+            if (rating === 0) {
+                alert('من فضلك اختر التقييم');
+                return;
+            }
+
+            const newReview = { username, text: reviewText, rating: parseInt(rating) };
+            reviews.push(newReview);
+            localStorage.setItem('reviews', JSON.stringify(reviews));
+
+            displayReviews();
+            updateStarCounts();
+
+            document.getElementById('username').value = '';
+            document.getElementById('review').value = '';
+            document.querySelectorAll('.star').forEach(star => star.classList.remove('selected'));
+
+            showSuccessMessage();
+        });
+
+        document.getElementById('openFeedbackBtn').addEventListener('click', function() {
+            const feedbackForm = document.getElementById('feedbackForm');
+            feedbackForm.style.display = feedbackForm.style.display === 'none' ? 'block' : 'none';
+        });
+
+        document.querySelectorAll('.star').forEach(star => {
+            star.addEventListener('click', function() {
+                document.querySelectorAll('.star').forEach(s => s.classList.remove('selected'));
+                this.classList.add('selected');
+            });
+        });
+
+        document.querySelectorAll('.rating-filter').forEach(button => {
+            button.addEventListener('click', function() {
+                const rating = parseInt(this.dataset.rating);
+                displayReviews(rating);
+            });
+        });
+
+        window.addEventListener('DOMContentLoaded', function() {
+            displayReviews();
+            updateStarCounts();
+        });
+    </script>
+</body>
+</html>

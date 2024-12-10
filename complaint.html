@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الشكاوى</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            direction: rtl;
+            background-color: #f4f7fc;
+            color: #333;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            width: 80%;
+            max-width: 600px;
+            margin: 50px auto;
+            background-color: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h1 {
+            text-align: center;
+            color: #d9534f;
+        }
+        label {
+            font-size: 18px;
+            margin-bottom: 8px;
+            display: block;
+            color: #555;
+        }
+        .input-box {
+            width: 100%;
+            padding: 12px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            font-size: 16px;
+            color: #333;
+        }
+        .submit-btn {
+            width: 100%;
+            padding: 15px;
+            background-color: #d9534f;
+            color: white;
+            font-size: 18px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+        .submit-btn:hover {
+            background-color: #c9302c;
+        }
+        .message {
+            color: #28a745;
+            text-align: center;
+            font-size: 16px;
+            margin-top: 20px;
+        }
+        .message.error {
+            color: #dc3545;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>إرسال الشكاوى</h1>
+        <label for="name">الاسم:</label>
+        <input type="text" id="name" class="input-box" placeholder="أدخل اسمك">
+
+        <label for="complaint">الشكوى:</label>
+        <input type="text" id="complaint" class="input-box" placeholder="أدخل شكواك">
+
+        <button class="submit-btn" onclick="submitComplaint()">إرسال</button>
+
+        <p id="message" class="message"></p>
+    </div>
+
+    <script>
+        function submitComplaint() {
+            const name = document.getElementById("name").value;
+            const complaint = document.getElementById("complaint").value;
+
+            if (name && complaint) {
+                let complaints = JSON.parse(localStorage.getItem("complaints")) || [];
+                complaints.push({ name, complaint });
+                localStorage.setItem("complaints", JSON.stringify(complaints));
+
+                document.getElementById("message").textContent = "تم إرسال الشكوى بنجاح!";
+                document.getElementById("message").classList.remove("error");
+                document.getElementById("message").classList.add("success");
+
+                document.getElementById("name").value = "";
+                document.getElementById("complaint").value = "";
+            } else {
+                document.getElementById("message").textContent = "الرجاء ملء كلا الحقلين";
+                document.getElementById("message").classList.remove("success");
+                document.getElementById("message").classList.add("error");
+            }
+        }
+    </script>
+
+</body>
+</html>

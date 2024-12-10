@@ -1,0 +1,332 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>علاج السحر بالكتاب والسنة</title>
+    <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <style>
+        body {
+            font-family: 'Tajawal', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+            color: #333;
+            transition: background-color 0.5s ease-in-out;
+        }
+        header {
+            background-color: #004d40;
+            color: white;
+            padding: 10px;
+            text-align: center;
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+            top: 0;
+            font-size: 14px;
+            transition: background-color 0.5s ease-in-out;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        header h1 {
+            font-size: 20px;
+            margin: 0;
+            flex: 1;
+            text-align: center;
+        }
+        .menu-icon {
+            cursor: pointer;
+            color: white;
+            font-size: 18px; /* حجم الأيقونات */
+            margin-left: 15px;
+            transition: color 0.3s;
+        }
+        .menu-icon:hover {
+            color: #ffab00;
+        }
+        nav {
+            background-color: #00695c;
+            padding: 10px 2vw;
+            text-align: center;
+            margin-top: 60px;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            transition: background-color 0.5s ease-in-out;
+            position: relative;
+        }
+        nav a {
+            color: white;
+            text-decoration: none;
+            margin: 0 15px;
+            font-size: 18px;
+            transition: color 0.3s ease;
+        }
+        nav a i {
+            font-size: 18px; /* حجم الأيقونات */
+        }
+        nav a:hover {
+            color: #ffab00;
+        }
+        section {
+            padding: 20px;
+            text-align: center;
+            margin-top: 20px;
+            animation: fadeIn 1s ease-in-out;
+        }
+        .services, .articles, .home-card {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .card {
+            background: #26a69a;
+            margin: 10px;
+            padding: 15px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+            width: calc(100% / 3 - 2vw);
+            text-align: center;
+            cursor: pointer;
+            opacity: 0;
+            transform: translateY(20px);
+            animation: fadeInUp 0.6s forwards;
+        }
+        .card:hover {
+            transform: scale(1.05);
+            transition: transform 0.3s;
+        }
+        .rights {
+            background-color: #004d40;
+            color: white;
+            text-align: center;
+            padding: 10px;
+            margin-top: 50px;
+        }
+        @media (max-width: 768px) {
+            .card {
+                width: 90vw;
+            }
+        }
+        .home-card .card {
+            width: 80vw;
+        }
+        @keyframes fadeIn {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes fadeInUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        .nav-feedback {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        .nav-feedback a {
+            display: flex;
+            align-items: center;
+        }
+        .nav-feedback i {
+            margin-right: 10px;
+            font-size: 18px; /* حجم الأيقونات */
+            color: white;
+        }
+        /* تنسيق القائمة المنسدلة */
+        .dropdown-content {
+            display: none;
+            position: fixed;
+            top: 50px; /* تحت شريط الإشعارات */
+            right: 10px; /* بجانب الأيقونة */
+            background-color: #00695c;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            z-index: 1000;
+        }
+        .dropdown-content a {
+            color: white;
+            padding: 12px 16px;
+            text-decoration: none;
+            display: block;
+            font-size: 18px;
+        }
+        .dropdown-content a:hover {
+            background-color: #004d40;
+        }
+        .faq {
+            margin: 20px 0;
+            text-align: right;
+        }
+        .faq h2 {
+            background-color: #004d40;
+            color: white;
+            padding: 10px;
+            border-radius: 5px;
+        }
+        .faq ul {
+            list-style: none;
+            padding: 0;
+        }
+        .faq li {
+            background: #26a69a;
+            color: white;
+            margin: 10px 0;
+            padding: 15px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .faq li:hover {
+            background: #00695c;
+        }
+        .newsletter {
+            margin: 20px 0;
+            text-align: center;
+            background-color: #004d40;
+            color: white;
+            padding: 20px;
+            border-radius: 5px;
+        }
+        .newsletter input[type="email"] {
+            padding: 10px;
+            width: calc(100% - 40px);
+            border: none;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+        .newsletter button {
+            background-color: #ffab00;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        .newsletter button:hover {
+            background-color: #ff8c00;
+        }
+        .quote {
+            background-color: #26a69a;
+            color: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+            text-align: center;
+            font-size: 20px;
+            line-height: 1.5;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="menu-icon" onclick="toggleMenu()">
+            <i class="fas fa-bars"></i>
+        </div>
+        <h1>علاج السحر بالكتاب والسنة</h1>
+        <!-- القائمة المنسدلة -->
+        <div id="dropdown-menu" class="dropdown-content">
+            <a href="about.html">من نحن</a>
+            <a href="privacy.html">سياسة الخصوصية</a>
+            <a href="complaint.html">الشكوى</a>
+            <a href="Suggestions.html">اقتراحات</a>
+        </div>
+    </header>
+    <nav>
+        <a href="#home"><i class="fas fa-home"></i> الرئيسية</a>
+        <a href="#services"><i class="fas fa-concierge-bell"></i> الخدمات</a>
+        <a href="#articles"><i class="fas fa-book"></i> المقالات</a>
+        <div class="nav-feedback">
+            <i class="fas fa-comment-dots"></i>
+            <a href="feedback.html"><span>اكتب رأيك</span></a>
+        </div>
+    </nav>
+    
+    <section id="home">
+        <div class="home-card">
+            <div class="card">
+                <h2>مرحبا بكم</h2>
+                <p>نحن هنا لنقدم لكم دعمًا حقيقيًا في رحلة الشفاء والتعافي من تأثيرات السحر والعين، وذلك من خلال اتباع الطرق الشرعية المستندة إلى القرآن الكريم والسنة النبوية.</p>
+                <p>هدفنا هو أن نكون دليلًا لكم في هذا الطريق، نوفر لكم الأدوات والمعرفة التي تساعدكم على الاستشفاء النفسي والروحي عبر التوجيهات القرآنية<p>هدفنا هو أن نكون دليلًا لكم في هذا الطريق، نوفر لكم الأدوات والمعرفة التي تساعدكم على الاستشفاء النفسي والروحي عبر التوجيهات القرآنية والتعاليم النبوية.</p>
+                <p>نحن نؤمن أن الشفاء يبدأ من القلب والعقل معًا، ولذلك نقدم لكم محتوى موثوقًا يساعدكم على تعزيز الصحة الروحية والنفسية، بما يعزز استقرار حياتكم وراحتكم النفسية.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="services" class="services">
+        <h2>الخدمات</h2>
+        <div class="card" onclick="window.location.href='ruqya.html'">
+            <h3>العلاج الروحي وفقًا للكتاب والسنة</h3>
+            <p > هو نهج يعتمده المسلمون للاستشفاء والوقاية من الأمراض الروحية والجسدية باستخدام ما ورد في القرآن الكريم والسنة النبوية."
+</p>
+        </div>
+        <div class="card" onclick="window.location.href='ID.html'">
+            <h3>كيفية معرفة الإصابة بالسحر</h3>
+            <p>"هنتعرف في هذا القسم على طرق معرفة الإصابة بالسحر من خلال الأعراض النفسية والجسدية، بالإضافة إلى الطرق الشرعية مثل الرقية والأدعية المستفادة من الكتاب والسنة."
+
+</p>
+        </div>
+        <div class="card" onclick="window.location.href='diet.html'">
+            <h3>إرشادات الوقاية</h3>
+            <p>تعلم كيف تحمي نفسك من السحر والعين.</p>
+        </div>
+    </section>
+
+    <section id="articles" class="articles">
+        <h2>المقالات</h2>
+        <div class="card">
+            <h3>ما هو السحر؟</h3>
+            <ponclick onclick="window.open('Definitions.html', '_blank')">مقال يشرح مفهوم السحر في الإسلام وأنواعه.</p>
+        </div>
+        <div class="card">
+            <h3 onclick="window.open('Definitions2.html', '_blank')">أدعية الرقية</h3>
+            <p>أدعية مأثورة لعلاج السحر والعين.</p>
+        </div>
+    </section>
+
+    <!-- قسم الأسئلة الشائعة (FAQ) -->
+    <section class="faq">
+        <h2>الأسئلة الشائعة</h2>
+    <ul>
+    <li onclick="window.open('Definitions.html', '_blank')">ما هو السحر؟</li>
+    <li onclick="window.open('diet.html', '_blank')">كيف يمكنني حماية نفسي من السحر؟</li>
+    <li onclick="window.open('symptoms.html', '_blank')">ما هي أعراض السحر وكيف يمكن علاجه؟</li>
+    <li onclick="window.open('Ruqyah.html', '_blank')">هل الرقية الشرعية مؤثرة فعلاً؟</li>
+</ul>
+    </section>
+
+    <!-- نموذج الاشتراك في النشرة البريدية -->
+    <section class="newsletter">
+        <h2>اشترك في نشرتنا البريدية</h2>
+        <p>احصل على أحدث المقالات والنصائح مباشرة إلى بريدك الإلكتروني.</p>
+        <form action="https://formspree.io/f/your-form-id" method="POST">
+            <input type="email" name="email" placeholder="أدخل بريدك الإلكتروني" required>
+            <button type="submit">اشترك</button>
+        </form>
+    </section>
+
+    <!-- قسم الاقتباسات الملهمة -->
+    <section class="quote">
+        <p>"وَنُنَزِّلُ مِنَ الْقُرْآنِ مَا هُوَ شِفَاءٌ وَرَحْمَةٌ لِّلْمُؤْمِنِينَ"</p>
+        <p>"عليكم بالصدق فإن الصدق يهدي إلى البر وإن البر يهدي إلى الجنة"</p>
+    </section>
+
+    <div class="rights">
+        <p>جميع الحقوق محفوظة © 2024 - علاج السحر بالكتاب والسنة</p>
+    </div>
+
+    <script>
+        function toggleMenu() {
+            var menu = document.getElementById("dropdown-menu");
+            if (menu.style.display === "block") {
+                menu.style.display = "none";
+            } else {
+                menu.style.display = "block";
+            }
+        }
+    </script>
+</body>
+</html>
